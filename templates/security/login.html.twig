@@ -1,42 +1,52 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_login.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
 {% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
-
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+    <form class="md-float-material" method="post">
+        <div class="text-center">
+            <img src="{{ asset('assets/images/logo_mobelite.svg') }}" alt="logo.png">
         </div>
-    {% endif %}
+        <div class="auth-box">
+            <div class="row m-b-20">
+                <div class="col-md-12">
+                    <h3 class="text-left text-dark">Sign In</h3>
+                </div>
+            </div>
+            <hr/>
+            <div class="input-group">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+            </div>
+            <div class="input-group">
+                <input type="text" class="form-control" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" placeholder="Username" required autofocus>
+                <span class="md-line"></span>
+            </div>
+            <div class="input-group">
+                <input type="password" class="form-control" placeholder="Password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
+                <span class="md-line"></span>
+            </div>
+                
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+            
+            <div class="row m-t-25 text-left">
+                <div class="col-sm-7 col-xs-12">
+                    <div class="checkbox-fade fade-in-dark">
+                        <label>
+                            <input type="checkbox" class="dark" name="_remember_me">
+                            <span class="cr"><i class="cr-icon icofont icofont-ui-check text-dark"></i></span>
+                            <span class="text-dark">Remember me</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-t-30">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary btn-md btn-block waves-effect text-center m-b-20">Sign in</button>
+                </div>
+            </div>
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUsername">Username</label>
-    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
         </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
+    </form>
 {% endblock %}
